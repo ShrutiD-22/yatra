@@ -10,6 +10,6 @@ public class Bus {
 
     @GetMapping("/mybus")
     public String getdata() {  // Fixed return type (String)
-        return "Please Book your bus ticket";
+        return "Please Book your train ticket";
     }
 }
