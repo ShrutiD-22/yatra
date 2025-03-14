@@ -59,30 +59,21 @@ pipeline {
                 }
             }
         }
-         stage('Push Docker Image to Amazon ECR') {
-             environment {
-                 AWS_REGION = 'ap-south-1'  // Set your AWS region
-                 ECR_REPO = '<your-account-id>.dkr.ecr.ap-south-1.amazonaws.com/yatra'  // Replace with your actual ECR repo URL
-             }
-             steps {
-                 script {
-                     withDockerRegistry([credentialsId: 'ecr-credentials', url: "https://${ECR_REPO}"]) {
-                         echo 'Logging in to Amazon ECR...'
-
-                         sh '''
-                             # Authenticate Docker to ECR
-                             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}
-
-                             # Tagging and pushing the image
-                             docker tag yatra:latest ${ECR_REPO}:latest
-                             docker push ${ECR_REPO}:latest
-                         '''
-
-                         echo 'Docker Image Pushed to Amazon ECR Successfully!'
-                     }
-                 }
-             }
-         }
+        stage('Push Docker Image to Amazon ECR') {
+                    steps {
+                        script {
+                            withDockerRegistry([credentialsId: 'ecr:ap-south-1:ecr-credentials', url: "https://145023110537.dkr.ecr.ap-south-1.amazonaws.com"]) {
+                                echo 'Tagging and Pushing Docker Image to ECR...'
+                                sh '''
+                                    docker images
+                                    docker tag 145023110537.dkr.ecr.ap-south-1.amazonaws.com/yatra:latest
+                                    docker push 145023110537.dkr.ecr.ap-south-1.amazonaws.com/yatra:latest
+                                '''
+                                echo 'Docker Image Pushed to Amazon ECR Successfully!'
+                            }
+                        }
+                    }
+                }
 
     }
 }
