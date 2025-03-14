@@ -59,20 +59,20 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image to Amazon ECR') {
-            steps {
-                script {
-                    withDockerRegistry([credentialsId: 'ecr:ap-south-1:ecr-credentials', url: "https://145023110537.dkr.ecr.ap-south-1.amazonaws.com/yatra"]) {
-                        echo 'Tagging and Pushing Docker Image to ECR...'
-                        sh '''
-                            docker images
-                            docker tag yatra-ms:latest 533267238276.dkr.ecr.ap-south-1.amazonaws.com/yatra:latest
-                            docker push 533267238276.dkr.ecr.ap-south-1.amazonaws.com/yatra:latest
-                        '''
-                        echo 'Docker Image Pushed to Amazon ECR Successfully!'
+         stage('Push Docker Image to Amazon ECR') {
+                    steps {
+                        script {
+                            withDockerRegistry([credentialsId: 'ecr:ap-south-1:ecr-credentials', url: "https://${ECR_REPO}"]) {
+                                echo 'Tagging and Pushing Docker Image to ECR...'
+                                sh '''
+                                    docker images
+                                    docker tag yatra:latest ${ECR_REPO}:latest
+                                    docker push ${ECR_REPO}:latest
+                                '''
+                                echo 'Docker Image Pushed to Amazon ECR Successfully!'
+                            }
+                        }
                     }
                 }
-            }
-        }
     }
 }
