@@ -66,7 +66,7 @@ pipeline {
                                 echo 'Tagging and Pushing Docker Image to ECR...'
                                 sh '''
                                     docker images
-                                    docker tag 145023110537.dkr.ecr.ap-south-1.amazonaws.com/ci-baseimage/yatra:latest my-repo/yatra:latest
+                                    docker tag 145023110537.dkr.ecr.ap-south-1.amazonaws.com/yatra:latest
                                     docker push 145023110537.dkr.ecr.ap-south-1.amazonaws.com/yatra:latest
                                 '''
                                 echo 'Docker Image Pushed to Amazon ECR Successfully!'
